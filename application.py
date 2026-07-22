@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Response
 import pandas as pd
 
 application = Flask(__name__)
@@ -53,6 +53,29 @@ def choose():
 @app.route("/about")
 def about_us():
    return render_template('about.html')
+
+from cleaner import clean
+
+@app.route("/download", methods = ['GET', 'POST'])
+def download_file():
+  if request.method == 'POST':
+    file = request.files.get('file')
+
+    if not file:
+        return "No file selected", 400
+    cleaned_data = clean(file)
+    csv_data = cleaned_data.to_csv(index=False)
+
+    return Response(
+        csv_data,
+        mimetype="text/csv",
+        headers={"Content-disposition": "attachment; filename=datex_cleaned.csv"}
+    )
+  return render_template('download.html')
+
+@app.route('/thank')
+def thank_user():
+   return render_template('thank_you.html')
 
 
 if __name__ == "__main__":

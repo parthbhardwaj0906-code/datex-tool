@@ -126,6 +126,19 @@
             border-color: var(--accent-color);
             color: var(--accent-color);
         }
+        .download-container {
+           margin-top: 1.5rem;
+           padding: 1rem;
+           border-top: 1px solid #e2e8f0;
+        }
+
+        .download-link {
+          display: inline-block;
+          margin-top: 0.5rem;
+          color: #0066cc;
+          font-weight: 600;
+          text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -192,6 +205,12 @@
 
         <a href="/choose" class="btn-back">← Analyze Another File</a>
     </div>
+    <div class="download-container">
+    <p>Would you like a cleaned version of this data?</p>
+    <a href="/download" class="btn btn-primary">
+        Proceed to Download Page
+    </a>
+</div>
 
 </body>
 </html>
