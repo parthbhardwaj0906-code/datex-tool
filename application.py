@@ -6,7 +6,7 @@ app = application
 
 @app.route("/")
 def welcome():
-    return "<html><H1>Welcome to DATEX.</H1></html>"
+    return render_template('home.html')
 
 @app.route("/index", methods = ['POST', 'GET'])
 def choose():
