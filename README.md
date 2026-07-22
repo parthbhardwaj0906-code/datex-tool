@@ -22,7 +22,7 @@
 ---
 
 ## 📁 Project Structure
-
+```text
 ├── application.py      # Main Flask application & route handlers
 ├── cleaner.py          # Data processing logic (missing values, outliers, formatting)
 ├── templates/
@@ -32,3 +32,4 @@
 │   ├── download.html   # Agreement notice and download trigger
 │   └── thankyou.html   # Download confirmation and navigation
 └── requirements.txt    # Python dependencies
+```
