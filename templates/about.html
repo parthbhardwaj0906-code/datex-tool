@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Datex | System Architecture & Technical Specifications</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --subtext-color: #94a3b8;
+            --accent-color: #38bdf8;
+            --accent-hover: #0284c7;
+            --border-color: #334155;
+            --code-bg: #090d16;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Top Brand Logo Header */
+        .text-logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            color: var(--accent-color);
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            line-height: 1;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 760px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            padding: 3rem 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 0.75rem;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+        }
+
+        section {
+            margin-bottom: 2.25rem;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p {
+            font-size: 0.98rem;
+            color: var(--subtext-color);
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            position: relative;
+            padding-left: 1.25rem;
+            color: var(--subtext-color);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+        }
+
+        li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .tech-card {
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .tech-card h3 {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .tech-card p {
+            font-size: 0.85rem;
+            color: var(--subtext-color);
+            margin-bottom: 0;
+        }
+
+        .nav-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #0f172a;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            color: #ffffff;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--subtext-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            background-color: var(--code-bg);
+            color: var(--accent-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="text-logo">DATEX</h1>
+
+    <div class="container">
+        <h1 class="page-title">Technical Architecture & Specifications</h1>
+        <div class="subtitle">Automated Data Integrity & Anomaly Detection Framework</div>
+
+        <section>
+            <h2>01. Executive Overview</h2>
+            <p>
+                <strong>Datex</strong> is a deterministic data integrity and pre-processing engine designed to ingest tabular datasets, evaluate structural metrics, and flag statistical anomalies. By executing vectorized operations via Pandas backend routines, Datex reduces raw data audit latency and highlights missing data distributions and statistical outliers.
+            </p>
+        </section>
+
+        <section>
+            <h2>02. Data Ingestion & Schema Parsing</h2>
+            <p>
+                Upon user payload upload (via multi-part HTTP standard requests), the backend handles CSV stream parsing into structured <code>DataFrame</code> representations:
+            </p>
+            <ul>
+                <li><strong>Type Inference & Vectorization:</strong> Automatically maps continuous numerical dimensions, categorical factors, and missing null indicators (<code>NaN</code> / <code>None</code>).</li>
+                <li><strong>Null Value Auditing:</strong> Computes column-wise aggregated metrics for missing values, calculating total missing row counts and relative missingness proportions.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>03. Outlier Detection Methodology</h2>
+            <p>
+                Datex leverages non-parametric statistical measures to identify extreme deviations without assuming normal Gaussian distributions across feature spaces:
+            </p>
+            <ul>
+                <li><strong>Interquartile Range (IQR) Analysis:</strong> For continuous numerical columns, quartiles Q1 (25th percentile) and Q3 (75th percentile) are evaluated to calculate interquartile spread (IQR = Q3 - Q1).</li>
+                <li><strong>Boundary Evaluation:</strong> Observations residing outside the dynamic interval <code>[Q1 - 1.5 × IQR, Q3 + 1.5 × IQR]</code> are flagged as anomalous data points.</li>
+                <li><strong>Z-Score / Standardized Residual Analysis:</strong> Optional parametric scaling to measure feature deviation from the mean in standard units.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>04. Core Architecture</h2>
+            <div class="tech-stack">
+                <div class="tech-card">
+                    <h3>Backend Engine</h3>
+                    <p>Python WSGI application powered by Flask micro-framework.</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Data Computation</h3>
+                    <p>High-performance vector operations driven by NumPy and Pandas.</p>
+                </div>
+                <div class="tech-card">
+                    <h3>Frontend Interface</h3>
+                    <p>Minimalist Jinja2 HTML templates styled with vanilla CSS variables.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="nav-footer">
+            <a href="/" class="btn btn-secondary">← Back to Home</a>
+            <a href="/upload" class="btn btn-primary">Upload Dataset →</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datex | Analysis Report</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-color: #f8fafc;
+            --subtext-color: #94a3b8;
+            --accent-color: #38bdf8;
+            --accent-hover: #0284c7;
+            --border-color: #334155;
+            --alert-color: #f87171;
+            --clean-color: #4ade80;
+            --table-header-bg: #090d16;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* Top Centered DATEX Header */
+        .text-logo {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            color: var(--accent-color);
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 760px;
+            width: 100%;
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 0.25rem;
+        }
+
+        .file-info {
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background-color: var(--table-header-bg);
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .alert { 
+            color: var(--alert-color); 
+            font-weight: 600; 
+        }
+
+        .clean { 
+            color: var(--clean-color); 
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--subtext-color);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+            margin-top: 1rem;
+        }
+
+        .btn-back:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="text-logo">DATEX</h1>
+
+    <div class="container">
+        <h2>Data Integrity Report</h2>
+        <div class="file-info">File Evaluated: {{ filename }}</div>
+
+        <!-- 01. Missing Values Report (Renders only if checked) -->
+        {% if missing_data is not none %}
+            <h3 class="section-title">01. Missing Values Audit</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Missing Count</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for column, count in missing_data.items() %}
+                    <tr>
+                        <td><strong>{{ column }}</strong></td>
+                        <td>
+                            {% if count > 0 %}
+                                <span class="alert">{{ count }} missing value(s)</span>
+                            {% else %}
+                                <span class="clean">0 (Clean)</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <!-- 02. Outlier Report (Renders only if checked) -->
+        {% if outlier_data is not none %}
+            <h3 class="section-title">02. Outlier Detection Report (IQR Method)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Numeric Column</th>
+                        <th>Outliers Identified</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for column, values in outlier_data.items() %}
+                    <tr>
+                        <td><strong>{{ column }}</strong></td>
+                        <td>
+                            {% if values %}
+                                <span class="alert">{{ values | join(', ') }}</span>
+                            {% else %}
+                                <span class="clean">No outliers detected</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+
+        <a href="/choose" class="btn-back">← Analyze Another File</a>
+    </div>
+
+</body>
+</html>
