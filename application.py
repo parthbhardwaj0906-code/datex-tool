@@ -1,7 +1,12 @@
+import os
+from io import StringIO
 from flask import Flask, render_template, request, jsonify, Response
 import pandas as pd
+from cleaner import clean
 
-application = Flask(__name__)
+# Set explicit template directory path for Vercel
+template_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'templates'))
+application = Flask(__name__, template_folder=template_dir)
 app = application
 
 @app.route("/")
@@ -46,29 +51,27 @@ def choose():
         if not m and not o:
             return "Error: Please select at least one analysis option!", 400
         
-        return render_template('results.html',missing_data=missing_dict,outlier_data=outlier_dict,filename=data.filename)
+        return render_template('results.html', missing_data=missing_dict, outlier_data=outlier_dict, filename=data.filename)
 
     return render_template('choice.html')
 
 @app.route("/about")
 def about_us():
-   return render_template('about.html')
+    return render_template('about.html')
 
-from cleaner import clean
-
-@app.route("/download", methods = ['GET', 'POST'])
+@app.route("/download", methods=['GET', 'POST'])
 def download_file():
-  if request.method == 'POST':
-    file = request.files.get('file')
+    if request.method == 'POST':
+        file = request.files.get('file')
 
-    if not file:
-        return "No file selected", 400
-    cleaned_data = clean(file)
-    buffer = StringIO()
-    cleaned_data.to_csv(buffer, index=False)
-    buffer.seek(0)
+        if not file:
+            return "No file selected", 400
+        cleaned_data = clean(file)
+        buffer = StringIO()
+        cleaned_data.to_csv(buffer, index=False)
+        buffer.seek(0)
 
-    return Response(
+        return Response(
             buffer.getvalue(),
             mimetype="text/csv",
             headers={
@@ -76,12 +79,13 @@ def download_file():
                 "Content-Type": "text/csv; charset=utf-8"
             }
         )
+    
+    # Correctly un-indented out of the POST block:
     return render_template('download.html')
 
 @app.route('/thank')
 def thank_user():
-   return render_template('thank_you.html')
-
+    return render_template('thank_you.html')
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug=True)
