@@ -1,7 +1,0 @@
-[project]
-name = "datex-tool"
-version = "0.1.0"
-dependencies = []
-
-[tool.vercel]
-entrypoint = "application:app"
