@@ -76,6 +76,7 @@ def download_file():
                 "Content-Type": "text/csv; charset=utf-8"
             }
         )
+    return render_template('download.html')
 
 @app.route('/thank')
 def thank_user():
