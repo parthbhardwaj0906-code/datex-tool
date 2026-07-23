@@ -1,6 +1,6 @@
 import os
 from io import StringIO
-from flask import Flask, render_template, request, jsonify, Response
+from flask import Flask, render_template, request, jsonify, Response, send_from_directory
 import pandas as pd
 from cleaner import clean
 
@@ -86,6 +86,26 @@ def download_file():
 @app.route('/thank')
 def thank_user():
     return render_template('thank_you.html')
+
+@app.route('/robots.txt')
+def robots():
+    content = "User-agent: *\nAllow: /\nSitemap: https://datex-tool-79sc-eight.vercel.app/sitemap.xml"
+    return Response(content, mimetype="text/plain")
+
+@app.route('/sitemap.xml')
+def sitemap():
+    xml = """<?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <url>
+            <loc>https://datex-tool-79sc-eight.vercel.app/</loc>
+            <priority>1.0</priority>
+        </url>
+        <url>
+            <loc>https://datex-tool-79sc-eight.vercel.app/download</loc>
+            <priority>0.8</priority>
+        </url>
+    </urlset>"""
+    return Response(xml, mimetype="application/xml")
 
 if __name__ == "__main__":
     app.run(debug=True)
