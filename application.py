@@ -64,14 +64,18 @@ def download_file():
     if not file:
         return "No file selected", 400
     cleaned_data = clean(file)
-    csv_data = cleaned_data.to_csv(index=False)
+    buffer = StringIO()
+    cleaned_data.to_csv(buffer, index=False)
+    buffer.seek(0)
 
     return Response(
-        csv_data,
-        mimetype="text/csv",
-        headers={"Content-disposition": "attachment; filename=datex_cleaned.csv"}
-    )
-  return render_template('download.html')
+            buffer.getvalue(),
+            mimetype="text/csv",
+            headers={
+                "Content-Disposition": "attachment; filename=datex_cleaned.csv",
+                "Content-Type": "text/csv; charset=utf-8"
+            }
+        )
 
 @app.route('/thank')
 def thank_user():
