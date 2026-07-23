@@ -32,6 +32,21 @@
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
         }
 
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: #3b82f6;
+        }
+
         h1 {
             font-size: 1.5rem;
             font-weight: 600;
@@ -100,12 +115,13 @@
             text-decoration: none;
             cursor: pointer;
             border: none;
-            transition: background-color 0.2s ease;
+            transition: all 0.2s ease;
         }
 
         .btn-primary {
             background-color: #2563eb;
             color: #ffffff;
+            flex: 1.5;
         }
 
         .btn-primary:hover {
@@ -127,6 +143,9 @@
 <body>
 
     <div class="container">
+        <!-- Top Navigation -->
+        <a href="/" class="back-link">&larr; Back to Home</a>
+
         <h1>Confirm Download</h1>
         <p class="subtitle">Complete the terms below to export your dataset.</p>
 
@@ -135,8 +154,8 @@
             By proceeding, you agree to allow <strong>Datex</strong> to process the uploaded dataset to fill missing values and handle numerical outliers in-memory.
         </div>
 
-        <!-- Download Form -->
-        <form action="/download" method="POST" enctype="multipart/form-data" onsubmit="redirectToThankYou()">
+        <!-- Clean Download Form -->
+        <form action="/download" method="POST" enctype="multipart/form-data">
             
             <div class="form-group">
                 <label for="file">Select Data File (.csv)</label>
@@ -144,22 +163,12 @@
             </div>
 
             <div class="actions">
-                <a href="/" class="btn btn-secondary">Cancel</a>
+                <a href="/" class="btn btn-secondary">Home</a>
                 <button type="submit" class="btn btn-primary">Agree & Download</button>
             </div>
 
         </form>
     </div>
-
-    <script>
-        function redirectToThankYou() {
-            // Give the browser 500ms to register the POST request download 
-            // before switching the page context to /thank
-            setTimeout(function() {
-                window.location.href = "/thank";
-            }, 500);
-        }
-    </script>
 
 </body>
 </html>
